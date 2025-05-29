@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palworld
+  template:
+    metadata:
+      labels:
+        app: palworld
+    spec:
+      containers:
+        - name: palworld
+          image: acrserverdocker.azurecr.io/palworld-server:latest
+          ports:
+            - containerPort: 8211
+              protocol: UDP
+            - containerPort: 27015
+              protocol: UDP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: palworld-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: palworld
+  ports:
+    - protocol: UDP
+      port: 8211
+      targetPort: 8211
+    - protocol: UDP
+      port: 27015
+      targetPort: 27015

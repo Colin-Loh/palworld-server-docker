@@ -1,4 +1,4 @@
-name: Build and Push to ACR via OIDC
+name: Build, Push to ACR, and Deploy to AKS
 
 on:
   push:
@@ -26,7 +26,17 @@ jobs:
       - name: ACR Login
         run: az acr login --name acrserverdocker
 
-      - name: Build & Push
+      - name: Build & Push Image
         run: |
           docker build -t acrserverdocker.azurecr.io/palworld-server:latest .
           docker push acrserverdocker.azurecr.io/palworld-server:latest
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: rg-palworld-server-docker
+          cluster-name: aksserverdocker
+
+      - name: Deploy to AKS
+        run: |
+          kubectl apply -f k8s/palworld-deployment.yaml
