@@ -24,9 +24,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: ACR Login
-        run: az acr login --name acrtestserverdocker
+        run: az acr login --name acrserverdocker
 
       - name: Build & Push
         run: |
-          docker build -t acrtestserverdocker.azurecr.io/palworld-server:latest .
-          docker push acrtestserverdocker.azurecr.io/palworld-server:latest
+          docker build -t acrserverdocker.azurecr.io/palworld-server:latest .
+          docker push acrserverdocker.azurecr.io/palworld-server:latest
