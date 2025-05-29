@@ -31,9 +31,11 @@ spec:
   selector:
     app: palworld
   ports:
-    - protocol: UDP
+    - name: game-port
+      protocol: UDP
       port: 8211
       targetPort: 8211
-    - protocol: UDP
+    - name: steam-port
+      protocol: UDP
       port: 27015
       targetPort: 27015
